@@ -32,8 +32,8 @@ def main():
     
 
     # Create vector of names for  algorithms of interest 
-    names = ["K=Nearest Neighbors K=15","K-Nearest Neighbors K=10","K-Nearest Neighbors K=15",
-                "Linear SVM", "RBF SVM",  "Poly-4 SVM"]    
+    names = ["Linear SVM", "RBF SVM",  "Poly-4 SVM", 
+            "K=Nearest Neighbors K=15","K-Nearest Neighbors K=10","K-Nearest Neighbors K=15"]    
     
     
     # Make a vector of classifiers that we want to test. Specify input
@@ -42,11 +42,8 @@ def main():
     # using a linear kernel, rbf kernel, and degree 4 polynomial kernel. For the
     # SVM classifiers we specify C=2, meaning that we want to partition our data
     # into two classes. 
-    classifiers = [KNeighborsClassifier(5),KNeighborsClassifier(10),KNeighborsClassifier(15),
-            SVC(kernel="linear", C=2),SVC(kernel='rbf', C=2), SVC(kernel="poly", degree=4, C=2)]
-
-
-    # First, make a toy linearly separable data set 
+    classifiers = [ SVC(kernel="linear", C=2), SVC(kernel='rbf', C=2), SVC(kernel="poly", degree=4, C=2), KNeighborsClassifier(5),              KNeighborsClassifier(10),KNeighborsClassifier(15)]
+    # First, make a toy linearly separable data set     
     X, y = make_classification(n_features=2, n_redundant=0, n_informative=2,
                     random_state=1, n_clusters_per_class=1)
     rng = np.random.RandomState(2)
