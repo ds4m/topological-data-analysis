@@ -37,7 +37,7 @@ training_size = 200
 testing_size = 100
 
 #Read in the 60,000 x 785 CSV file
-df=pd.read_csv('C:/Users/Elchanan/Downloads/mnist_train.csv', sep=',',header=None)
+df=pd.read_csv('mnist_train.csv', sep=',',header=None)
 #Convert it to an numpy array
 train = df.values
 #The CSV array consists of 60,000 training figures. Each figure is stored as a list of 
@@ -52,7 +52,7 @@ for i in range(training_size):
     mnist_train_data.append(np.reshape(mnist_train_vectors[i,:], (28, 28)))
     
 #Read in the 10,000 x 785 CSV file
-df=pd.read_csv('C:/Users/Elchanan/Downloads/mnist_test.csv', sep=',',header=None)
+df=pd.read_csv('mnist_test.csv', sep=',',header=None)
 #Convert it to an numpy array
 test = df.values
 #The CSV array consists of 10,000 testing figures. Each figure is stored as a list of 

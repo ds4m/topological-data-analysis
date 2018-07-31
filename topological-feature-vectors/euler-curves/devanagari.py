@@ -25,7 +25,7 @@ testing_size = 5
 from os import listdir
 import imageio
 #Specify the file path where the data sets are stored
-mypath_train = "C:/Users/Elchanan/Downloads/DevanagariHandwrittenCharacterDataset/DevanagariHandwrittenCharacterDataset/train"
+mypath_train = "DevanagariHandwrittenCharacterDataset/train"
 #Find the 36 Devanagari letters in the file
 train_letter_filenames = [f for f in listdir(mypath_train) if f.startswith('character')]
 #We'll use these letter names as the keys of a dictionary
@@ -53,7 +53,7 @@ train_letter_keys = list(train_letter_dictionary.keys())
 #Now, we repeat all this for the testing data
 
 #Specify the file path where the data sets are stored
-mypath_test = "C:/Users/Elchanan/Downloads/DevanagariHandwrittenCharacterDataset/DevanagariHandwrittenCharacterDataset/test"
+mypath_test = "DevanagariHandwrittenCharacterDataset/test"
 #Find the 36 Devanagari letters in the file
 test_letter_filenames = [f for f in listdir(mypath_test) if f.startswith('character')]
 #We'll use these letter names as the keys of a dictionary
