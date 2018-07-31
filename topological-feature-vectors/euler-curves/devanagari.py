@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Loads Devanagari Data
 
@@ -18,21 +17,15 @@ devan_test_labels -- an array of character labes matching devan_tests_figures
 
 @author: Elchanan Solomon
 """
-
-from os import listdir
-import imageio
-import ECC
-import numpy as np
-
 #Specify size of training and testing set
-training_size = 5
+training_size = 10
 testing_size = 5
 
 # Load Devanagari Data
-print('Loading the Devanagari data ...')
-
+from os import listdir
+import imageio
 #Specify the file path where the data sets are stored
-mypath_train = "DevanagariHandwrittenCharacterDataset/train"
+mypath_train = "C:/Users/Elchanan/Downloads/DevanagariHandwrittenCharacterDataset/DevanagariHandwrittenCharacterDataset/train"
 #Find the 36 Devanagari letters in the file
 train_letter_filenames = [f for f in listdir(mypath_train) if f.startswith('character')]
 #We'll use these letter names as the keys of a dictionary
@@ -60,7 +53,7 @@ train_letter_keys = list(train_letter_dictionary.keys())
 #Now, we repeat all this for the testing data
 
 #Specify the file path where the data sets are stored
-mypath_test = "DevanagariHandwrittenCharacterDataset/test"
+mypath_test = "C:/Users/Elchanan/Downloads/DevanagariHandwrittenCharacterDataset/DevanagariHandwrittenCharacterDataset/test"
 #Find the 36 Devanagari letters in the file
 test_letter_filenames = [f for f in listdir(mypath_test) if f.startswith('character')]
 #We'll use these letter names as the keys of a dictionary
@@ -105,25 +98,25 @@ for k in test_letter_keys:
     for im in test_letter_dictionary[k]:
         #Add it to our array and store its character label
         devan_test_figures.append(im)
-        devan_test_labels.append(k)
+        devan_test_labels.append(k)    
 
 """
-    Analyzing and Classifying Devanagari Characters Dataset using euler characteristic curves
-    
-    @author: Elchanan
-    """
+Analyzing and Classifying Devanagari Characters Dataset using euler characteristic curves
 
+@author: Elchanan
+"""
+
+  
+import ECC
+import numpy as np
+import matplotlib.pyplot as plt
 #Sample 8 directions on the unit circle
-#directions = [(np.cos(x),np.sin(x)) for x in np.linspace(0,2*np.pi,8)]
-#some sample directions
-directions = [(1,0),(0,1),(-1,0),(0,-1),(1,1),(1,-1),(-1,1),(-1,-1),(2,1),(2,-1),(-2,1),(-2,-1)]
+directions = [(1,0),(0,1),(1/1.414,1/1.414)]
+#directions = [(np.cos(x),np.sin(x)) for x in np.linspace(0,np.pi/2,16)]
+#directions = [(1,0),(0,1),(-1,0),(0,-1),(1,1),(1,-1),(-1,1),(-1,-1),(2,1),(2,-1),(-2,1),(-2,-1)]
 #directions = [(np.cos(x),np.sin(x)) for x in np.linspace(0,np.pi,4)]
 
 #Predict labels for 100 test images
-labels = ECC.predict_labels(devan_train_figures,devan_train_labels,devan_test_figures[:100],directions,1)
+labels = ECC.predict_labels(devan_train_figures,devan_train_labels,devan_test_figures[:180],directions,1)
 #Display the score
-print('Accuracy on the test set: ' + str(sum(np.array(labels) == np.array(devan_test_labels[:100]))) +'%' )
-
-
-
-  
+print('Accuracy on the test set: ' + str(sum(np.array(labels) == np.array(devan_test_labels[:180]))/180.0) +'%' )

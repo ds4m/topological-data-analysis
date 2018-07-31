@@ -7,6 +7,9 @@ Functions to produce, manipulate, and compare Euler characteristic curves
 
 import numpy as np
 import matplotlib.pyplot as plt
+from progressbar import *
+widgets = ['Run: ', Percentage(), ' ', Bar(marker=RotatingMarker()),
+               ' ', ETA(), ' ', FileTransferSpeed()]
 
 def build_complexes(image,cutoff):
     """
@@ -19,12 +22,12 @@ def build_complexes(image,cutoff):
     
     Returns
     ----------
-    A tuple of arrays (vertices,edges,squares)
-    vertices -- an array of locations in the grid
-    edges -- an array of edges (pairs of locations) in the grid
-    squares -- an array of squares (quadruples of locations) in the grid
+    A tuple of lists (vertices,edges,squares)
+    vertices -- an list of locations in the grid
+    edges -- an list of edges (pairs of locations) in the grid
+    squares -- an list of squares (quadruples of locations) in the grid
     """
-    #We instantiate empty arrays
+    #We instantiate empty lists
     vertices = []
     edges = []
     squares = []
@@ -36,7 +39,7 @@ def build_complexes(image,cutoff):
     #We iterate over locations in the grid    
     for i in range(m):
         for j in range(n):
-            #If our location has binary value '1', we add it to our vertex array
+            #If our location has binary value '1', we add it to our vertex list
             if binary_image[i,j]:
                 vertices.append((i,j))            
             #If our location is not in the last column or row, we check if it the location
@@ -48,7 +51,7 @@ def build_complexes(image,cutoff):
                         edges.append(((i,j),(i+1,j)))
                         
             #We also check if our location is the top-left corner of a square of '1's,
-            #in which case we store that square in our square array
+            #in which case we store that square in our square list
                 if binary_image[i,j] and binary_image[i,j+1] and binary_image[i+1,j] and binary_image[i+1,j+1]:
                     squares.append(((i,j),(i,j+1),(i+1,j),(i+1,j+1)))
             #Moving down the last column, we check for vertical edges
@@ -64,11 +67,11 @@ def build_complexes(image,cutoff):
 
 def euler_char(V,E,F):
     """
-    Returns the euler characteristic of a triple of arrays as the alternating sum of their lengths.
+    Returns the euler characteristic of a triple of lists as the alternating sum of their lengths.
     
     Parameters
     ---------
-    V,E,F -- arrays
+    V,E,F -- lists
     
     Returns
     --------
@@ -99,9 +102,9 @@ def euler_curve(vertices,edges,squares,start,stop,step,direction):
     
     Parameters
     ----------
-    vertices -- an array of locations in the grid
-    edges -- an array of edges (pairs of locations) in the grid
-    squares -- an array of squares (quadruples of locations) in the grid
+    vertices -- an list of locations in the grid
+    edges -- an list of edges (pairs of locations) in the grid
+    squares -- an list of squares (quadruples of locations) in the grid
     start -- lower value for filtration
     stop -- upper value for filtration
     step -- discrete step taken in each iteration
@@ -110,21 +113,21 @@ def euler_curve(vertices,edges,squares,start,stop,step,direction):
     Returns
     -------
     s_vals -- The height values used in the filtration
-    e_curve -- An array of euler characteristic values
+    e_curve -- An list of euler characteristic values
     
     """
     #instatiate the height variable
     s = start
-    #prepare the array of euler characteristic values
+    #prepare the list of euler characteristic values
     e_curve = []
-    #prepare the array of height_values
+    #prepare the list of height_values
     s_vals = []
-    #Make a deep copy of the simplicial complex arrays. These arrays will list
+    #Make a deep copy of the simplicial complex lists. These lists will list
     #the simplices not yet in our sublevel set
     V_out = vertices[:]
     E_out = edges[:]
     F_out = squares[:]
-    #Empty arrays storing simplices already included in our sublevel set
+    #Empty lists storing simplices already included in our sublevel set
     V_in = []
     E_in = []
     F_in = []
@@ -164,15 +167,15 @@ def euler_curve(vertices,edges,squares,start,stop,step,direction):
         s += step
     return (s_vals,e_curve) 
 
-def array_of_smooth_euler_curves(vertices,edges,squares,start,stop,step,directions):
+def list_of_smooth_euler_curves(vertices,edges,squares,start,stop,step,directions):
     """
-    Computes an array of smoothed euler characteristic curves along a set of directions
+    Computes an list of smoothed euler characteristic curves along a set of directions
 
     Parameters
     ----------
-    vertices -- an array of locations in the grid
-    edges -- an array of edges (pairs of locations) in the grid
-    squares -- an array of squares (quadruples of locations) in the grid
+    vertices -- an list of locations in the grid
+    edges -- an list of edges (pairs of locations) in the grid
+    squares -- an list of squares (quadruples of locations) in the grid
     start -- lower value for filtration
     stop -- upper value for filtration
     step -- discrete step taken in each iteration
@@ -180,16 +183,16 @@ def array_of_smooth_euler_curves(vertices,edges,squares,start,stop,step,directio
     
     Returns
     ---------
-    ec_array -- an array of Euler characteristic curves
+    ec_list -- an list of Euler characteristic curves
     
     """
-    #Initialize the array of ec curves
-    ec_array = []
+    #Initialize the list of ec curves
+    ec_list = []
     #For each direction...
     for direc in directions:
-        #Compute its ec curves and add it to the array
-        ec_array.append(smooth_curve(euler_curve(vertices,edges,squares,start,stop,step,direc)[1]))
-    return ec_array  
+        #Compute its ec curves and add it to the list
+        ec_list.append(smooth(euler_curve(vertices,edges,squares,start,stop,step,direc)[1],10))
+    return ec_list  
             
 def display_subset(image,direction,height):
     """
@@ -201,10 +204,10 @@ def display_subset(image,direction,height):
     direction - a two-tuple vector
     height - a real value to determine the sublevel set
     """
-    #Make an empty mxn array
+    #Make an empty mxn list
     subslice = np.zeros(image.shape)
     (m,n) = subslice.shape
-    # For each location in this array...
+    # For each location in this list...
     for i in range(m):
         for j in range(n):
             #Give it a value of '1' if it sits in the sublevel set
@@ -215,38 +218,9 @@ def display_subset(image,direction,height):
     #plot this intersection, which gives the sublevel set
     plt.imshow(sub_image, cmap='gray_r')
     plt.show()
-    
-def smooth_curve(curve):
-    """
-    Takes an discrete curve and smooths it
-    
-    Parameters
-    ----------
-    vals -- array of x-values
-    curve -- array of function values
-    
-    Returns
-    -------
-    smoothed_curve -- an array of the same length as curve    
 
-    """
-    #Find the number of elements in our array
-    n = len(curve)
-    #and invert that to get step, which is like a "delta x"
-    step = 1/(n+0.0)
-    #instatiate the smooth curve
-    smoothed_curve = []
-    #Iterating through our curve...
-    for i in range(n):
-        # add the initial curve value, multiplied by step
-        if i==0:
-            smoothed_curve.append(curve[0]*step)
-        #continue to take a cumulative sum, adding the prior value of smoothed_curve to the
-        #present value of curve, multiplied by step
-        else:
-            smoothed_curve.append(smoothed_curve[i-1] + curve[i]*step)
-    return smoothed_curve
-   
+
+    
 
 def l2dist(f,g):
     """
@@ -254,7 +228,7 @@ def l2dist(f,g):
     
     Parameters
     ----------
-    f,g -- functions stored as arrays
+    f,g -- functions stored as lists
     
     Returns
     -------
@@ -271,11 +245,27 @@ def l2dist(f,g):
     #Return its square root    
     return np.sqrt(sum)
 
-def l2_array_dist(A,B):
+def l2_list_dist(A,B):
+    """
+    Computes the normalized L2 distance between 2 equal-sized lists of functions
+    
+    Parameters
+    ----------
+    A,B -- lists of functions
+    
+    Returns
+    -------
+    sum -- normalized sum of L^2 distances between functions in the lists
+    
+    """
+    #Compute the number of functions in our lists
     n = len(A)
     sum = 0.0
+    #for each index...
     for i in range(n):
+        #add up the L2 distance between the corresponding functions in each list
         sum += l2dist(A[i],B[i])
+    #return the sum divided by the total number of functions    
     return sum/n
 
 def image_dist(im1,im2,directions = [(1,0),(0,1),(-1,0),(0,-1)],cutoff=20):
@@ -285,7 +275,7 @@ def image_dist(im1,im2,directions = [(1,0),(0,1),(-1,0),(0,-1)],cutoff=20):
     Parameters
     ----------
     im1,im2 -- greyscale images
-    directions -- array of 2-tupes, default is [(1,0),(0,1),(-1,0),(0,-1)]
+    directions -- list of 2-tupes, default is [(1,0),(0,1),(-1,0),(0,-1)]
     cutoff -- cutoff value for simplicial complex, default is 20
     """
     sum=0
@@ -294,8 +284,8 @@ def image_dist(im1,im2,directions = [(1,0),(0,1),(-1,0),(0,-1)],cutoff=20):
     (vertices2,edges2,squares2) = build_complexes(im2,20)
     #For each direction, compute euler characteristic curve
     for direc in directions:
-        (vals1,curve1) = smooth_curve(euler_curve(vertices1,edges1,squares1,0,50,5,direc))
-        (vals2,curve2) = smooth_curve(euler_curve(vertices2,edges2,squares2,0,50,5,direc))
+        (vals1,curve1) = smooth(euler_curve(vertices1,edges1,squares1,0,50,5,direc),10)
+        (vals2,curve2) = smooth(euler_curve(vertices2,edges2,squares2,0,50,5,direc),10)
         #compute the l2 distance between the curves, and add it to our running sum
         sum += l2dist(curve1,curve2)
     #Return the sum of distances, normalized by the number of directions
@@ -309,15 +299,15 @@ def complex_dist(com1,com2,directions = [(1,0),(0,1),(-1,0),(0,-1)]):
     Parameters
     ----------
     im1,im2 -- greyscale images
-    directions -- array of 2-tupes, default is [(1,0),(0,1),(-1,0),(0,-1)]
+    directions -- list of 2-tupes, default is [(1,0),(0,1),(-1,0),(0,-1)]
     """
     sum=0
     (vertices1,edges1,squares1) = com1
     (vertices2,edges2,squares2) = com2
     #For each direction, compute euler characteristic curve
     for direc in directions:
-        (vals1,curve1) = smooth_curve(euler_curve(vertices1,edges1,squares1,0,50,5,direc))
-        (vals2,curve2) = smooth_curve(euler_curve(vertices2,edges2,squares2,0,50,5,direc))
+        (vals1,curve1) = smooth(euler_curve(vertices1,edges1,squares1,0,50,5,direc),10)
+        (vals2,curve2) = smooth(euler_curve(vertices2,edges2,squares2,0,50,5,direc),10)
         #compute the l2 distance between the curves, and add it to our running sum
         sum += l2dist(curve1,curve2)
     #Return the sum of distances, normalized by the number of directions
@@ -326,6 +316,56 @@ def complex_dist(com1,com2,directions = [(1,0),(0,1),(-1,0),(0,-1)]):
 
 def most_common(lst):
     return max(set(lst), key=lst.count)
+
+    
+def smooth(y, box_pts):
+    """
+    Takes an discrete curve and smooths it via convolution
+    
+    Parameters
+    ----------
+    y -- the curve
+    box_puts -- the width parameter in the convolution
+    
+    Returns
+    -------
+    smoothed_curve -- an list of the same length as curve    
+    """
+    #create the averaging function
+    box = np.ones(box_pts)/box_pts
+    #convolve curve with the averaging function
+    y_smooth = np.convolve(y, box, mode='same')
+    return y_smooth
+
+def vectorize(data,directions):
+    """
+    Turns a list of figures into a list (one per figure) of lists (one per direction) of EC curves
+    
+    Parameters
+    ----------
+    data -- list of figures
+    directions -- list of 2-tuple directions
+    
+    Returns
+    -------
+    test_ec_lists -- list (one per figure) of lists (one per direction) of EC curves
+    
+    """
+    #Initiate list to store, for each image, its list of EC curves
+    test_ec_lists = []
+    #For each image...
+    print("Generating EC Vectors:")
+    pbar = ProgressBar(widgets= widgets, maxval=len(data)).start()
+    indx = -1    
+    for fig in data:
+        #Build its complexes
+        (vertices,edges,squares) = build_complexes(fig,20)
+        #And compute its set of EC curves
+        test_ec_lists.append(list_of_smooth_euler_curves(vertices,edges,squares,0,100,1,directions))
+        indx+=1
+        pbar.update(indx)
+    return test_ec_lists    
+    
 
 
 def predict_labels(train_data,train_labels,test,directions,knn=1):
@@ -342,40 +382,68 @@ def predict_labels(train_data,train_labels,test,directions,knn=1):
     
     Returns
     ---------
-    labels -- array of predicted labels
+    labels -- list of predicted labels
     
     """
-    #Initiate array to store, for each test image, its array of EC curves
-    test_ec_arrays = []
+    #Initiate list to store, for each test image, its list of EC curves
+    test_ec_lists = []
     #For each test image...
+    print("Generating EC for Test Set")
+    pbar = ProgressBar(widgets= widgets, maxval=len(test)).start()
+    indx = -1
     for fig in test:
         #Build its complexes
         (vertices,edges,squares) = build_complexes(fig,20)
         #And compute its set of EC curves
-        test_ec_arrays.append(array_of_smooth_euler_curves(vertices,edges,squares,-100,100,1,directions))
-    #Initiate array to store, for each training image, its array of EC curves
-    train_ec_arrays = []
+        test_ec_lists.append(list_of_smooth_euler_curves(vertices,edges,squares,0,100,1,directions))
+        indx +=1
+        pbar.update(indx)
+    pbar.finish()
+    print("Complete!")
+    #Initiate list to store, for each training image, its list of EC curves
+    train_ec_lists = []
     #For each training image...
-    for image in train_data:
+    print("Generating EC for Train Set")
+    pbar = ProgressBar(widgets=widgets, maxval=len(train_data)).start()
+    indx = -1    
+    for image in train_data:       
         #Build its complexes
         (vertices,edges,squares) = build_complexes(image,20)
         #And compute its EC_curves
-        train_ec_arrays.append(array_of_smooth_euler_curves(vertices,edges,squares,-100,100,1,directions))
+        train_ec_lists.append(list_of_smooth_euler_curves(vertices,edges,squares,0,100,1,directions))
+        indx +=1
+        pbar.update(indx)
+    pbar.finish()
+    print("Complete!")    
     #Build a matrix of zeros to store distances between testing and training images
     (a,b) = (len(test),len(train_data))
     dist_matrix = np.zeros((a,b))
     #For each pair of training and testing images
+    print("Computing mutual distances...")
+    pbar = ProgressBar(widgets=widgets, maxval=a).start()
+    indx = -1
     for i in range (a):
         for j in range(b):
             #Compute their distance using EC curves
-            dist_matrix[i,j] = l2_array_dist(test_ec_arrays[i],train_ec_arrays[j])
-    #Initiate array of labels        
+            dist_matrix[i,j] = l2_list_dist(test_ec_lists[i],train_ec_lists[j])
+        indx+=1
+        pbar.update(indx)
+    pbar.finish()
+    print("Complete!")     
+    #Initiate list of labels        
     labels = []
     #For each test image...
+    print("Generating labels...")
+    pbar = ProgressBar(widgets=widgets, maxval=a).start()
+    indx = -1    
     for i in range(a):
         #Sort the row of training labels by corresponding distance of the training image to the test image        
         sorted_labels = [x for _,x in sorted(zip(dist_matrix[i,:],train_labels))]
         #Pick the most common label among the k nearest neighbours
         labels.append(most_common(sorted_labels[:knn]))
+        indx+=1
+        pbar.update(indx)
+    pbar.finish()
+    print("Complete!")     
     return labels
 
