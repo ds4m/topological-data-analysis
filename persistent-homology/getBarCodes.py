@@ -41,10 +41,9 @@ def main():
     for file in files:
         #Run ripser on each barcode file in the current folder corresponding to black stripes, save output to RipserFile
          RipserFile = OUT + '/ripser_' + file[len(DIR) ::]
-         if os.path.isfile(RipserFile) == False:
-             cmd = "ripser %s | cut -f 2 -d: | awk 'NR > 1 {print}' | cut -c 3- | sed 's/.$//' > %s" % (file,  RipserFile)
-             os.system(cmd)
-         
+         #if os.path.isfile(RipserFile) == False:
+         cmd = "./ripser %s | cut -f 2 -d: | awk 'NR > 1 {print}' | cut -c 3- | sed 's/.$//' > %s" % (file, RipserFile)
+         os.system(cmd)
 
 
 if __name__ == "__main__":
