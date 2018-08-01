@@ -10,9 +10,11 @@ import argparse
 import matplotlib.pyplot as plt
 def main(npoints=500, ndim=3):
     descriptor = "Sample points uniformly at random from the unit sphere"
-    vec = np.random.randn(ndim, npoints)
-    vec /= np.linalg.norm(vec, axis=0)
-    np.savetxt('point_clouds/sphere_points.txt', np.transpose(vec), delimiter=', ')
+    # Sample vectors from a normal distribution, ie from a Gaussian distribution, in Euclidean space.
+    vectors = np.random.randn(ndim, npoints)
+    # Normalize each vector to have length one. These are our uniformly distributed points on the sphere.
+    vectors /= np.linalg.norm(vectors, axis=0)
+    np.savetxt('point_clouds/sphere_points.txt', np.transpose(vectors), delimiter=', ')
 
 if __name__ == "__main__":
     
