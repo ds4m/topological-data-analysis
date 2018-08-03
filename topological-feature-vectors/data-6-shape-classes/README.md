@@ -21,3 +21,5 @@ corresponds to noise level neta=1, the 21st point cloud randomly sampled from sh
 Each row of this file has two entries: the birth and death time of a 1-dimensional persistent homology interval.
 
 Your task is to use machine learning to distinguish these six classes from each other. In a K-medoids clustering test, some accuracies and computation times are displayed for bottleneck distances, Wasserstein distances, persistence landscapes, and persistence images in Table 1 of "Persistence Images: A Stable Vector Representation of Persistent Homology". Do you have ideas for beating these accuracies or computation times?
+
+(Some Matlab code for creating points from these shape classes is available at https://github.com/CSU-TDA/PersistenceImages/tree/master/matlab_code/sixShapeClasses.)
