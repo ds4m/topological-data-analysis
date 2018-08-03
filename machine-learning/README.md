@@ -1,7 +1,9 @@
 # ICERM-TRIPODS-Top-ML
 This subfolder contains machine learning examples (no topology yet).
 
-This repository contains scripts for applying clustering and classification algorithms in Python, and relies on sklearn and numpy. 
+This repository contains scripts for applying clustering and classification algorithms in Python. 
+
+Dependencies: numpy, sklearn 
 
 The code in this repository was taken and modified from: http://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html and http://scikit-learn.org/stable/auto_examples/cluster/plot_cluster_comparison.html. 
 
