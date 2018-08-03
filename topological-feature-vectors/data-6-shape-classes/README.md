@@ -15,7 +15,7 @@ ToyData_PD_n05_23_6_0.txt
 corresponds to noise level neta=0.05, the 23rd point cloud randomly sampled from shape class (6), with persistent homology computed in dimension 0.
 Each row of this file has two entries: the birth and death time of a 0-dimensional persistent homology interval.
 
-By contrast example, the file 
+By contrast, the file 
 ToyData_PD_n1_21_3_1.txt
 corresponds to noise level neta=1, the 21st point cloud randomly sampled from shape class (3), with persistent homology computed in dimension 1.
 Each row of this file has two entries: the birth and death time of a 1-dimensional persistent homology interval.
