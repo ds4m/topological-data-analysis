@@ -23,7 +23,7 @@ Notes
 
 MNIST -- 200 training images/100 testing images, 12 directions, runs 1-2 mins, 86% accuracy
 
-Devanagari -- 10 training images per letter/5 testing images per letter, 3 directions, runs 1-2 minutes, 76% accuracy
+Devanagari -- (Using first 10 letters) 20 training images per letter/10 testing images per letter, 3 directions, runs 1-2 minutes, 76% accuracy. Using more letters requires more training time.
 
 Accuracy can improved by adding more directions, a larger training set, and adjusting the classifier.
 
