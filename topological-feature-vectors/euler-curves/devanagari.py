@@ -18,8 +18,10 @@ devan_test_labels -- an array of character labes matching devan_tests_figures
 @author: Elchanan Solomon
 """
 #Specify size of training and testing set
-training_size = 10
-testing_size = 5
+training_size = 20
+testing_size = 10
+#Specify the number of characters to use
+num_of_char = 10
 
 # Load Devanagari Data
 from os import listdir
@@ -31,7 +33,7 @@ train_letter_filenames = [f for f in listdir(mypath_train) if f.startswith('char
 #We'll use these letter names as the keys of a dictionary
 train_letter_dictionary = {}
 #We select some subset of letters to store as data
-for file in train_letter_filenames[:]:
+for file in train_letter_filenames[:num_of_char]:
     #The dictionary value will be an array of images
     train_letter_dictionary[file] = []
     #We'll set our new path to be the folder corresponding to this letter
@@ -59,7 +61,7 @@ test_letter_filenames = [f for f in listdir(mypath_test) if f.startswith('charac
 #We'll use these letter names as the keys of a dictionary
 test_letter_dictionary = {}
 #We select some subset of letters to store as data
-for file in test_letter_filenames[:]:
+for file in test_letter_filenames[:num_of_char]:
     #The dictionary value will be an array of images
     test_letter_dictionary[file] = []
     #We'll set our new path to be the folder corresponding to this letter
@@ -67,7 +69,7 @@ for file in test_letter_filenames[:]:
     #We collect all the filenames in this folder
     char_letter_filenames = [char for char in listdir(mypath_test_char)]
     #For some subset of characters in the folder
-    for char in char_letter_filenames[0:testing_size]:
+    for char in char_letter_filenames[-testing_size:]:
         #We set the path to be the location of that character
         mypath_test_char_num = mypath_test_char + "/" + char
         #We read in the image
@@ -117,6 +119,6 @@ directions = [(1,0),(0,1),(1/1.414,1/1.414)]
 #directions = [(np.cos(x),np.sin(x)) for x in np.linspace(0,np.pi,4)]
 
 #Predict labels for 100 test images
-labels = ECC.predict_labels(devan_train_figures,devan_train_labels,devan_test_figures[:180],directions,1)
+labels = ECC.predict_labels(devan_train_figures,devan_train_labels,devan_test_figures,directions,1)
 #Display the score
-print('Accuracy on the test set: ' + str(sum(np.array(labels) == np.array(devan_test_labels[:180]))/180.0) +'%' )
+print('Accuracy on the test set: ' + str(sum(np.array(labels) == np.array(devan_test_labels))/(len(devan_test_figures) + 0.0)) +'%' )
