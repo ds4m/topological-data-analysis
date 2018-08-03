@@ -1,5 +1,5 @@
 # ICERM-TRIPODS-Top-ML
-This subfolder contains machine learning examples (no topology yet)
+This subfolder contains machine learning examples (no topology yet).
 
 This repository contains scripts for applying clustering and classification algorithms in Python, and relies on sklearn and numpy. 
 
