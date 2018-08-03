@@ -20,6 +20,8 @@ python classifier_compare.py
 Author: Melissa McGuirl Contact: melissa_mcguirl@brown.edu
 
 Additional resources:
-     -sklearn user tutorial: http://scikit-learn.org/stable/user_guide.html
-     -machine learning with scikit-learn tutorial: http://scikit-learn.org/stable/tutorial/basic/tutorial.html
-     -choosing the right estimator: http://scikit-learn.org/stable/tutorial/machine_learning_map/index.html
+     - sklearn user tutorial: http://scikit-learn.org/stable/user_guide.html
+     
+     - machine learning with scikit-learn tutorial: http://scikit-learn.org/stable/tutorial/basic/tutorial.html
+     
+     - choosing the right estimator: http://scikit-learn.org/stable/tutorial/machine_learning_map/index.html
