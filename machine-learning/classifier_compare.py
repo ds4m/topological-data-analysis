@@ -40,8 +40,8 @@ def main():
     # parameters for each classifier. Here we are testing KNN with K=5,10,15 as
     # specified by the function input, and a support vector machine classifier
     # using a linear kernel, rbf kernel, and degree 4 polynomial kernel. For the
-    # SVM classifiers we specify C=2, meaning that we want to partition our data
-    # into two classes. 
+    # SVM classifiers we specify C=2. which corresponds to the penalty constraint. 
+    
     classifiers = [ SVC(kernel="linear", C=2), SVC(kernel='rbf', C=2), SVC(kernel="poly", degree=4, C=2), KNeighborsClassifier(5),              KNeighborsClassifier(10),KNeighborsClassifier(15)]
     # First, make a toy linearly separable data set     
     X, y = make_classification(n_features=2, n_redundant=0, n_informative=2,
