@@ -121,4 +121,4 @@ directions = [(1,0),(0,1),(1/1.414,1/1.414)]
 #Predict labels for 100 test images
 labels = ECC.predict_labels(devan_train_figures,devan_train_labels,devan_test_figures,directions,1)
 #Display the score
-print('Accuracy on the test set: ' + str(sum(np.array(labels) == np.array(devan_test_labels))/(len(devan_test_figures) + 0.0)) +'%' )
+print('Accuracy on the test set: ' + str(100*sum(np.array(labels) == np.array(devan_test_labels))/(len(devan_test_figures) + 0.0)) +'%' )
