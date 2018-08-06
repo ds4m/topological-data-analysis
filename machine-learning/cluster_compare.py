@@ -69,7 +69,7 @@ def main():
 
         # Plot the three datasets first
         cm = plt.cm.RdBu
-        cm_bright = ListedColormap(['#FF0000', '#0000FF'])
+        cm_bright = ListedColormap(['#FF0000', '#0000FF','#FFA500']) 
         ax = plt.subplot(len(datasets), len(cluster_algs) + 1, i)
         if ds_cnt == 0:
             ax.set_title("Input data")
