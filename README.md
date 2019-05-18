@@ -1,4 +1,2 @@
-# ICERM-TRIPODS-Top-ML
-This code accompanies the TRIPODS Summer Bootcamp: Topology and Machine Learning, https://icerm.brown.edu/tripods/tri18-2-tml/.
-
-The tutorial for this code is available at https://github.com/ICERM-TRIPODS-Top-ML/Top-ML/wiki.
+# Charleston-TDA-ML
+This tutorial accompanies the NSF-CBMS Conference and Software Day on Topological Methods in Machine Learning and Artificial Intelligence, http://blogs.cofc.edu/cbms-tda2019/. It was written by Henry Adams, Melissa McGuirl, and Yitzchak Solomon. Please see the corresponding wiki page!
