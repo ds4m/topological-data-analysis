@@ -1,8 +1,6 @@
 # Topological Data Analysis
 This subfolder contains persistent homology examples
 
-HENRY NOTE: Our plan is to update this to instead use scikit-tda?
-
 This repository contains scripts for using Ripser (https://github.com/Ripser/ripser) and 
 Hera (https://bitbucket.org/grey_narn/hera) with a Python interface. 
 
@@ -16,3 +14,5 @@ For usage help, run python [filename] --h
 
 Author: Melissa McGuirl
 Contact: melissa_mcguirl@brown.edu
+
+HENRY NOTE: Our plan is to update this to instead use scikit-tda?
